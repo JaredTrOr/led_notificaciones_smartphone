@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'control_screen.dart';
 
 void main() {
   runApp(const FlutterBluetoothApp());
@@ -77,7 +76,12 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
           MaterialPageRoute(
             builder: (context) => ControlScreen(device: connectedDevice!, connection: connection!),
           ),
-        );
+        ).then((_) {
+          connection?.close();
+          connection = null;
+          connectedDevice = null;
+          setState(() {});
+        });
       });
     } catch(e) {
       print(e);
@@ -87,16 +91,14 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dispositivos Bluetooth'),
-      ),
+      appBar: AppBar(),
       body: ListView(
         padding: const EdgeInsets.all(20.0),
         children: [
           Center(
             child: Text(
               "Dispositivos Bluetooth Conectados",
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
           const SizedBox(height: 20),
@@ -112,57 +114,6 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
             ),
           )),
         ],
-      ),
-    );
-  }
-}
-
-class ControlScreen extends StatefulWidget {
-  final BluetoothDevice device;
-  final BluetoothConnection connection;
-
-  const ControlScreen({required this.device, required this.connection, Key? key}) : super(key: key);
-
-  @override
-  _ControlScreenState createState() => _ControlScreenState();
-}
-
-class _ControlScreenState extends State<ControlScreen> {
-  bool isLedOn = false;
-
-  void toggleLed() {
-    setState(() {
-      isLedOn = !isLedOn;
-    });
-    widget.connection.output.add(Uint8List.fromList([isLedOn ? 1 : 0]));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Control de ${widget.device.name}'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.lightbulb_outline,
-              color: isLedOn ? Colors.yellow : Colors.grey,
-              size: 100,
-            ),
-            const SizedBox(height: 20),
-            SwitchListTile(
-              title: const Text('Encender/Apagar LED'),
-              value: isLedOn,
-              onChanged: (value) => toggleLed(),
-              activeColor: Colors.blue,
-              inactiveThumbColor: Colors.grey,
-              inactiveTrackColor: Colors.grey[300],
-            ),
-          ],
-        ),
       ),
     );
   }

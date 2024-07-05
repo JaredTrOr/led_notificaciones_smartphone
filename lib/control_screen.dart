@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:led_notificaciones_smartphone/api/notification_sender.dart';
 
 class ControlScreen extends StatefulWidget {
   final BluetoothDevice device;
   final BluetoothConnection connection;
 
-  const ControlScreen({required this.device, required this.connection, Key? key})
-      : super(key: key);
+  const ControlScreen({required this.device, required this.connection, Key? key}) : super(key: key);
 
   @override
   _ControlScreenState createState() => _ControlScreenState();
@@ -15,12 +15,15 @@ class ControlScreen extends StatefulWidget {
 
 class _ControlScreenState extends State<ControlScreen> {
   bool isLedOn = false;
+  final _notificationSender = NotificationSender();
 
   void toggleLed() {
     if (widget.connection.isConnected) {
       setState(() {
         isLedOn = !isLedOn;
       });
+      _notificationSender.sendMessage(isLedOn);
+
       widget.connection.output.add(Uint8List.fromList([isLedOn ? 49 : 48])); // ASCII: '1' -> 49, '0' -> 48
     } else {
       print("No se puede enviar datos, no está conectado");

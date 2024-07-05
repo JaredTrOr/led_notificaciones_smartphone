@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "499141809306",
+    "project_id": "led-notificaciones",
+    "storage_bucket": "led-notificaciones.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499141809306:android:fcbf78818793e4ab847b23",
+        "android_client_info": {
+          "package_name": "com.example.colortest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyH_qOkp4g2XSD24JHWjeRLSBlKh80iy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499141809306:android:32fbaad67ceac2d7847b23",
+        "android_client_info": {
+          "package_name": "com.example.weartest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyH_qOkp4g2XSD24JHWjeRLSBlKh80iy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

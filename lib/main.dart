@@ -1,9 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:led_notificaciones_smartphone/firebase_options.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'control_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const FlutterBluetoothApp());
 }
 
